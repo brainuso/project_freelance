@@ -1,0 +1,18 @@
+MSD color code
+colour: blue, green, orange shades
+
+orange:
+#fc4a1a vermillion
+#ff7e5f - heatwave
+#f78733 sunshine
+#e98000 mustard shouts
+
+blue:
+#2096ba shutter blue
+#4abdac fresh
+#02c8a7 aquamarine
+
+green:
+#037367 celadon
+#57bc90 marine(close to white)
+#66ab8c leaf
