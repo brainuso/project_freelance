@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--SEO-->
+		<?php echo '<meta name="Keywords" content="'.$subtitle.' gigs">
+		 <meta name="Description" content=" Need '.$subtitle.' gigs? Check these out.">';?>
+		
+		<!--css include file-->
+		  <?php include '../css/css.php';?>
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    </head>
+    <body>
+      <?php include ('../includes/header.php')?>
+	  <div class="page-header col-lg-12 col-md-12 col-xs-12" id="banner"> 
+            <!--added a col-lg-12 rule to enable background image responsiveness to any screen size-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 text-center"> 
+                        <h1> <?php 	echo $subtitle; ?>
+		  <p><small>Small talk <?php // echo " ".$cattitle;?></small>
+		  </h1>
+                        <!-- search form not necessary in subcategory 
+						<form class="navbar-form" action="../search/" method="GET" role="search">
+                            <div class="form-group">
+                                <input class="form-control" name="q" placeholder="Search..." type="text">
+                                <button type="submit" class="btn btn-default">Search Services</button>
+                            </div>
+                        </form>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="jumbotron"> 
+            <div class="container-fluid">
+                <!-- Example row of columns -->
+                <div class="row">
+                    <h3 class="text-center"> Services</h3>
+                    <div class="col-lg-3 col-sm-4 col-md-3">
+                        <div class="panel">
+                            <div class="panel-heading">Advanced Search</div>                             
+                            <div class="panel-body">
+                                <ul> 
+                                    <li>Lorem ipsum dolor sit amet</li>                                     
+                                    <li>Consectetur adipiscing elit</li>                                     
+                                    <li>Integer molestie lorem at massa</li>                                     
+                                    <li>Nulla volutpat aliquam velit</li>
+                                </ul>
+                               <h6>Location</h6>
+							<select class="form-control " id="select-location" onchange="(this.value)">
+							<option> Select location</option>
+							<?php $location_sql = selectMysql($pdo, "SELECT * FROM location");
+							while($row = $location_sql->fetch(PDO::FETCH_NUM)){
+								$location = $row[1];
+								
+								echo '<option data-value="'.$location.'">'.$location.'</option>';
+							}?>
+							</select>
+                            </div>                             
+                        </div>                         
+                    </div>
+                    <?php 
+			try{
+			$gigcat_query = selectMysql($pdo, "SELECT gig_details.gigid, gig_details.name, 
+										gig_details.sellerid, gig_details.subcatid, 
+										price.standard FROM gig_details INNER JOIN price WHERE gig_details.gigid=price.gigid 
+										and gig_details.subcatid='".$subid."' AND gig_details.status='ACTIVE' LIMIT 0,16");
+		$gig = array();
+
+		while($row = $gigcat_query->fetch(PDO::FETCH_ASSOC)){
+	 $gig['ID'] = $row['gigid'];
+	 $gig['name'] = $row['name'];
+	 $gig['sellerid'] = $row['sellerid'];
+	 $gig['subcatid'] = $row['subcatid'];
+	 $gig['stdprice'] = $row['standard'];
+	 
+	  $file_query = selectMysql($pdo, "SELECT filepath FROM filestore INNER JOIN gig_details WHERE filestore.description='gig-profile' AND filestore.authorid ='".$gig['ID']."'");
+	 
+	 
+	 $gig['imagepath'] = $file_query->fetchColumn(0);
+	 
+	 // $seller_query = ;
+	$seller_query = selectMysql($pdo, "SELECT username FROM user_biodata WHERE userid = '".$gig['sellerid']."'");
+	$seller = array();
+		while($rows =  $seller_query->fetch(PDO::FETCH_NUM)){
+		$seller['name'] = $rows[0];
+		
+		
+		
+		$gig_url= str_replace(' ','-',$gig['name']);
+		
+		
+	 echo '<div class="col-lg-3 col-sm-4 col-md-3"> 
+						<a href="../../'.$seller['name'].'/'.$gig_url.'">
+							<div class="thumbnail"> 
+                                <img src="'.$gig['imagepath'].'" class="" alt="'.$gig['name'].'"/> 
+								<div class="caption"> 
+                                    <h5>'.ucfirst($gig['name']).'</h5> 
+                                    <p>By <span class="bold-italics">'.$seller['name'].'</span> 
+									<strong class="pull-right">&#8358;'.($gig['stdprice']).'</strong></p> 
+                                </div>                                 
+                            </div>
+						</a>                             
+                        </div>';
+	 
+	
+			}
+}
+}catch (PDOException $e){
+		 $output = 'Query failed '. $e->getMessage();
+	 include '../includes/error.html.php';
+	 exit();
+}
+			?>
+			
+					
+					
+					<div class="col-lg-3 col-sm-4 col-md-3"> 
+                        <div class="thumbnail"> 
+                            <img src="file:///C:/Program%20Files%20(x86)/Pinegrow%20Web%20Designer/placeholders/img5.jpg" alt=""> 
+                            <div class="caption"> 
+                                <h3>Thumbnail label</h3> 
+                                <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p> 
+                                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> 
+                            </div>                             
+                        </div>                         
+                    </div>
+                    <div class="col-lg-3 col-sm-4 col-md-3"> 
+                        <div class="thumbnail"> 
+                            <img src="file:///C:/Program%20Files%20(x86)/Pinegrow%20Web%20Designer/placeholders/img5.jpg" alt=""> 
+                            <div class="caption"> 
+                                <h3>Thumbnail label</h3> 
+                                <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p> 
+                                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> 
+                            </div>                             
+                        </div>                         
+                    </div>
+                    <div class="col-lg-3 col-sm-4 col-md-3"> 
+                        <div class="thumbnail"> 
+                            <img src="file:///C:/Program%20Files%20(x86)/Pinegrow%20Web%20Designer/placeholders/img5.jpg" alt=""> 
+                            <div class="caption"> 
+                                <h3>Thumbnail label</h3> 
+                                <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p> 
+                                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> 
+                            </div>                             
+                        </div>                         
+                    </div>                     
+                </div>
+            </div>             
+        </div>
+        
+			<?php include '../includes/footer.php';?>
+			
+        <!-- Main jumbotron for a primary marketing message or call to action -->         
+        <!-- /container -->
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+		<!--js include file-->
+		  <?php include '../js/js.php';?>
+        
+    </body>
+</html>

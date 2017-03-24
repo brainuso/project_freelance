@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang='en'>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title> <?php echo $title;?> | MySkillDomain </title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+    		<meta http-equiv="X-UA-Compatible" content="IE= edge">
+		<!--SEO-->
+		<?php echo '<meta name="Keywords" content="'.$title.' gigs">
+		 <meta name="Description" content=" Need '.$title.' gigs? Check these out.">';?>
+		<!--css include file-->
+		  <?php include '../css/css.php';?>
+        
+		
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../bower_components/html5shiv/dist/html5shiv.js"></script>
+      <script src="../bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+	
+	</head>
+	
+	<body class="" style="">
+	<?php include ('../includes/header.php')?>
+	<div id="banner" >
+			<img class="category-header" src="img/<?php echo $cname;?>-header.jpg"/>
+	</div>
+	
+	<div class="jumbotron">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+				<h2 name="category-title" id="category-title"><?php echo $title.'<br><small>'.$storyline.'</small>';?></h2>
+				<p name="elevator-pitch"><?php echo $description;?></p>
+				
+				<div class="row">
+					<?php try{
+						$cat_sql = selectMysql($pdo, "SELECT * FROM gig_category WHERE catid='".$id."'");
+						}catch (PDOException $e){
+							$error = "Query failed".$e->getMessage();
+							include('../includes/error.html.php');
+							exit();
+						}	
+					$subcat = array();
+					while ($list = $cat_sql->fetch(PDO::FETCH_NUM)){
+						$subcat['id'] = $list[0];
+						$subcat['name'] = $list[1];
+						$subcat['title'] = $list[2];
+						//$subcat['image'] = $list[];
+						//echo $subcat['title'];
+						
+						
+						echo '<div class="col-sm-4 col-md-4 col-xs-6">
+							<div class="panel panel-default"><a href="'.$cname.'/'.$subcat['name'].'">
+							<div class="panel-body"><img src=""/>
+							<p>'.$subcat['title'].'</p>
+							</div></a>
+								
+							</div>
+						</div>';}?>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php include('../includes/footer.php')?>
+	<!--js include file-->
+		  <?php include '../js/js.php';?>
+        
+	</body>
+</html>
