@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--SEO-->
+        <meta name="Keywords" content="Gig, skill, online marketplace, services, myskilldomain, featured services, MSD">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="google-site-verification" content="8eecgU41tTc6VawiYRwMwWHGW21KNb7av8D8iU2AEHA" />
+        <title>ChoiceWorker | <?php echo " ". $_SESSION['username'];?></title>
+		<!--css include file-->
+		<?php include 'css/css.php';?>
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    </head>
+    <body>
+        <?php include 'includes/header.php';?>
+		<?php	 
+	$verify_query = "SELECT user_biodata.username FROM user_biodata WHERE  userid='".$_SESSION['userID']."'";
+   $verify_query = selectMysql($pdo, $verify_query);
+	
+  if ($verify_query->rowCount() == 0){
+		include ('emailalert.php');
+	}
+	
+	?>
+		<div class="jumbotron"> 
+            <div class="container-fluid">
+                <!-- Example row of columns -->
+                <div class="row">
+					<!--User profile-->
+					<div class="col-lg-3 col-sm-4 col-md-3"> 
+                        <div class="thumbnail"> 
+                                 	<?php  //query filestore for filename assigned to user, if file exists then show, if it doesnt echo form
+			$user_id = $_SESSION['userID'];
+			
+			$img_query = selectMysql($pdo, "SELECT filepath FROM filestore WHERE authorid='$user_id' and description='user-profile'");
+			
+			if (isset($error))echo '<span class="text-warning"'.$error.'<br/>';
+			if ($img_query->rowCount() == 0){
+				echo'
+				<form name="imgUpload" method="POST" action="index.php" enctype="multipart/form-data">
+				<fieldset>
+				
+				<div class="form-group">
+				<label for="Upload">
+					</label>
+							<input name="upload1" id="uploadFile" placeholder="Choose File" disabled="disabled"/>
+							<div class="fileUpload btn btn-default">
+						<span>Add Photo</span> <span class="fa fa-chain"></span><input name="upload" id="uploadBtn" class="upload" type="file" value=""/>
+						</div>
+						
+						<input id="submitBtn" type="submit" class="btn btn-default"  name="action" value="Submit"/>
+							
+						</div>
+						
+				</fieldset>
+				</form>
+				<div id="image-status"></div>
+				<div id="preview" class=""></div>
+							<div id="data" class="">
+                    <h4 id="name"></h4>
+                    <p id="size"></p>
+                    <p id="type"></p>
+                </div>';
+			}
+			else{
+			$src = $img_query->fetchColumn();
+				echo '<img src="'.$src.'" class="" alt=""/>';
+			 }
+			
+				?>
+							<div class="caption text-center">
+								<?php 
+				if (isset ( $picture_error)) echo '<P class="text-warning"><span class="fa fa-warning"></span>'.$picture_error.'</p>';?>
+					<h3><?php echo $username;?><br/><small>
+					
+					<?php if ($verify_query->rowCount() == 0){
+					echo '';}else{
+					
+					if (isset($_SESSION['storyline'])){
+						if ($_SESSION['storyline']== ""){
+						echo '
+					<form method="POST" action="index.php">
+						<input type="hidden" value="action" name="storyline"/>
+						<input class="form-control text-center" name="storyline" type="text"  placeholder="What is your story? We want to hear it."/>
+						<input id="" type="submit" class="btn btn-default"  value="Submit"/>
+					</form>';
+					if (isset($story_error))echo '<span class="text-warning"'.$story_error.'<br/>';
+						}
+							else echo stripslashes($_SESSION['storyline'])."<br/>";
+						}
+						else{
+						echo '
+					<form method="POST" action="index.php">
+						<input type="hidden" value="action" name="storyline"/>
+						<input class="form-control text-center" name="storyline" type="text"  placeholder="What is your story? We want to hear it."/>
+						<input id="" type="submit" class="btn btn-default"  value="Submit"/>
+					</form>';}
+					}
+					?>
+					</small></h3>
+						
+					<p><strong><?php echo $_SESSION['location']."<br/>";?></strong></p>
+					</div><p>
+					<?php  if ($verify_query->rowCount() == 0){
+		echo '<a href="'.$username.'/create-service/" class="btn btn-primary" role="button" disabled="disabled">Sell a Service</a> 
+					<a href="'.$username.'/edit-service/" class="btn btn-primary pull-right" role="button" disabled="disabled">Edit services<input name="action" method="POST" type="hidden" value="edit"/></a> ';
+	}else{
+	echo'
+					<a href="'.$username.'/create-service/" role="button" class="btn btn-primary">Sell a Service</a> 
+					<a href="'.$username.'/edit-service/" role="button" class="btn btn-primary pull-right">Edit services<input action="edit" method="POST" type="hidden" value="edit"/></a> ';}
+					?>
+						</p>		
+                                                    
+						</div>
+                    </div>
+					
+					<!--User profile template
+						<div class="col-lg-3 col-sm-4 col-md-3"> 
+                        <div class="thumbnail"> 
+                            <img src="file:///C:/Program%20Files%20(x86)/Pinegrow%20Web%20Designer/placeholders/img5.jpg" alt=""> 
+                            <div class="caption text-center"> 
+                                <h3>Username</h3> 
+                                <p>Caption<br>Location.</p> 
+                            </div>                             
+                            <p><a href="#" class="btn btn-primary" role="button">Sell a Service</a> <a href="#" class="btn btn-default pull-right" role="button">Edit services</a></p> 
+                        </div>                         
+                    </div>-->
+                    <div class="col-lg-9 col-sm-8 col-md-9">
+                        <div class="panel ">
+                            <div class="panel-heading text-center">
+                                <h3><span class="fa fa-signal"></span>
+            Analytics</h3>
+                            </div>                             
+                            <div class="panel-body">
+                                <div id="user-analytics" class="order-stats">
+                                    <span class="col-md-3">
+										<a href="analytics#order-queue"><p>Order Queue</p> 
+										<p id="figure">
+										<?php //will edit this section
+	$queue_query = selectMysql($pdo, "SELECT COUNT(orderid) AS orderqueue FROM order_transact WHERE order_transact.buyerid ='".$_SESSION['userID']."' AND order_transact.status= '1'");
+	$order_queue = $queue_query->fetchColumn();
+	echo $order_queue;
+	
+	?></p></a> 
+									</span>
+                                    <span class="col-md-3"><a href="analytics#earnings">
+									<p>Current Earnings</p>
+									<p id="figure">₦ 
+							<?php $earn_query = selectMysql($pdo, "SELECT amount FROM earnings WHERE userid='".$_SESSION['userID']."'");
+	if( $earn_query->rowCount() == 0){
+	echo '0';
+	}else { $earnings = $earn_query->fetchColumn(); echo $earnings;}?>	</p></a>
+									</span>
+                                    <span class="col-md-3"><a href="analytics#my-orders"><p>My Orders</p><p id="figure"><?php $my_orders_query = selectMysql($pdo, "SELECT COUNT(orderid) AS numorder FROM order_transact WHERE buyerid='".$_SESSION['userID']."' AND (order_transact.status= '2' OR order_transact.status= '3')");
+	
+	if( $my_orders_query->rowCount() == 0){
+	echo '0';
+	}else { $my_orders = $my_orders_query->fetchColumn(); echo $my_orders;}?></p></a>
+									</span>
+                                    <span class="col-md-3"><a href="analytics#shopping-balance"><p>Shopping Balance</p><p id="figure">₦ 0</p></a></span>
+                                </div>
+                                
+								
+								
+                            </div>
+                        </div>
+                        <div class="panel ">
+                            <div class="panel-heading text-center">
+                                <h3><span class="fa fa-bell"></span>
+            Notifications</h3>
+                            </div>                             
+                            <div class="panel-body">
+                                <div class="list-group">
+                                    
+										<?php $notify_query = selectMysql($pdo, "SELECT senderid, details, receiverid, COUNT(*) AS numnotify FROM notifications 
+										WHERE receiverid = '".$_SESSION['userID']."' AND seen='0' GROUP BY details");
+				
+				if ( $notify_query->rowCount() == 0 ){
+				
+				echo '<div class="list-group">
+							<div class="list-group-item">
+							No new notifications to show you '.$_SESSION['username'].', do check the <a href="http://'.$site_url.'/blog/blog.html">Blog </a> though. 
+							</div>
+							
+						</div>';
+				}
+				else {
+					while ($notes = $notify_query->fetch(PDO::FETCH_NUM)){
+					$noteid = $notes[0];
+					$notetitle = $notes[1];
+					$count = $notes[3];
+						if($notetitle == "New Message"){
+							echo '
+							<a href="messages/" class="list-group-item">
+							'.$notetitle.' <span class="pull-right badge">'.$count.'</span>
+							</a>';
+						}
+						elseif ($notetitle == "We have a gig request that fits your skill set."){
+							echo '
+							<a href="request/?action=notify" class="list-group-item">
+							'.$notetitle.' <span class="pull-right badge">'.$count.'</span>
+							</a>';
+						}
+						elseif ($notetitle == "You have a request bid"){
+							echo '
+							<a href="request/manage_request.html" class="list-group-item">
+							'.$notetitle.' <span class="pull-right badge">'.$count.'</span>
+							</a>';
+						}
+						else{						
+					
+						echo '
+							<a href="analytics/" class="list-group-item">
+							'.$notetitle.' <span class="pull-right badge">'.$count.'</span>
+							</a>
+							
+						';
+						}
+				}
+					
+					
+				
+				}
+						?>
+				  
+                                </div>                                 
+                            </div>                             
+                        </div>                         
+                    </div>                     
+                </div>
+            </div>             
+        </div>
+                <?php include 'includes/footer.php';?>
+		<!-- Main jumbotron for a primary marketing message or call to action -->         
+        <!-- /container-fluid -->
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <!--js include file-->
+		  <?php include 'js/js.php';?>
+    </body>
+</html>

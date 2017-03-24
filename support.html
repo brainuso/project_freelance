@@ -1,0 +1,259 @@
+<?php include  'includes/function.php';?>
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>ChoiceWorker | Support</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+    		<meta http-equiv="X-UA-Compatible" content="IE= edge">
+		<!--css include file-->
+		  <?php include 'css/css.php';?>
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../bower_components/html5shiv/dist/html5shiv.js"></script>
+      <script src="../bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<?php include('includes/header.php');?>
+
+<div class="jumbotron">
+	<div class="container">
+		<div class="row">
+			<div id="faqs">
+			<div class="row">
+                <div class="col-lg-12">
+                    <div class="well">
+                        <h3>
+                          FAQs 
+                        </h3>
+                        <!-- .panel-heading -->
+                        <div class="">
+                            <div class="" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">01.
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#what-is-msd-faq">What is MSD?</a>
+                                        </h3>
+                                    </div>
+                                    <div id="what-is-msd-faq" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            ChoiceWorker i.e where you are now, is a online marketplace for freelancers (people who sell their services) to meet with interested buyers. We provide the platform for businesses to flourish without having to register sign up and blah blah blah with CAC. We took over that stress for you.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">02.
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">What is a service?</a>
+                                        </h3>
+                                    </div>
+                                    <div id="collapseTwo" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            A service is a unit of service. It is a handy name for service being offered for a fee. 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">03.
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">How do I create a service?</a>
+                                        </h3>
+                                    </div>
+                                    <div id="collapseThree" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                          You can create a service in 3 easy steps: <br/>
+										  <h5><strong> Step 1:</strong></h5>
+										  <p>Sign Up, verify your account and create a profile.</p>
+										  <h5><strong> Step 2:</strong></h5>
+										  <p>Click on the 'Create service' button on your Dashboard and fill in the service details</p>
+										  <h5><strong> Step 3:</strong></h5>
+										   <p>Do nothing. the instruction ends in Step 2.</p>
+										   To edit an already existing service, simply click on the 'Edit service' button on your Dashboard and select the service you want to edit.
+                                        </div>
+                                    </div>
+                                </div>
+								<div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">04.
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Must everyone offer(sell) a service?</a>
+                                        </h3>
+                                    </div>
+                                    <div id="collapseFour" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                           No, you are not obligated to sell a service. You are allowed to purchase services if that is all you need.
+                                        </div>
+                                    </div>
+                                </div> 
+								<div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">05.
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">Are my bank details safe?</a>
+                                        </h3>
+                                    </div>
+                                    <div id="collapseFive" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                           Yes all bank details are secure. We do not store bank details on our servers and all bank details are encrypted and during transaction processing to ensure safety.
+                                        </div>
+                                    </div>
+                                </div> <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">06.
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">How much do I make from a service?</a>
+                                        </h3>
+                                    </div>
+                                    <div id="collapseSix" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                           For every service sold, there is a 10% commission. Also for 3rd party withdrawals to you account, an amount of &#8358;120 + 1.5% of the withdrawal is charged by our payment service providers.<br/>
+										   So if you sell a &#8358;3000 service, a commission of &#8358;300 is due and the sum of &#8358;<?php $percent = 1.5; $due = 120; $total = $due+($percent/100) * 3000; echo $total;?> is paid to the payment service provider on withdrawal, making a sum total of &#8358;<?php $fee=300;  $percent = 1.5; $due = 120; $total = $due+($percent/100) * 3000; echo $fee+$total;?>. The amount payable is &#8358;3000 - &#8358;<?php $fee=300;  $percent = 1.5; $due = 120; $total = $due+($percent/100) * 3000; echo $fee+$total.'= &#8358;'; echo 3000 - ($fee+$total) ;?>
+                                        </div>
+                                    </div>
+                                </div> <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">07.
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">What payment methods are available?</a>
+                                        </h3>
+                                    </div>
+                                    <div id="collapseSeven" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                           Our payment service provider, CashEnvoy accepts VISA, MasterCard, and Verve for all payments.
+                                        </div>
+                                    </div>
+                                </div> <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">08.
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseEight">How/When do I get paid?</a>
+                                        </h3>
+                                    </div>
+                                    <div id="collapseEight" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                          Payment for services are made available to sellers 7days after services have been completed and approved by the Buyer. Also if you will like your payments weekly/twice a month/monthly, we can set that up for you. You can read more here in <a href="terms_conditions.html#sellers">terms and conditions</a>.
+                                        </div>
+                                    </div>
+                                </div> 
+								<div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">09.
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseNine">How do I cancel an order?</a>
+                                        </h3>
+                                    </div>
+                                    <div id="collapseNine" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                         To cancel an order, notify the seller and ask him/her to cancel the order. the funds will be credited to your MSD account and can be used for other purchases. You can read more here in <a href="terms_conditions.html#orders">terms and conditions</a>. 
+                                        </div>
+                                    </div>
+                                </div>
+								<div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">10.
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTen">What are Seller Levels?</a>
+                                        </h3>
+                                    </div>
+                                    <div id="collapseTen" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                         Seller Levels are inhouse metrics used to guage a sellers ability. This is based on various factors namely:
+										 <ol><li>Number of services sold.</li>
+										 <li>Average ratings of services sold.</li>
+										 <li>Average delivery time.</li>
+										 </ol>
+										  Sellers are allowed to post a select amount of active services based on their Level status.
+    <ul>
+       <li>1 service for sellers  at Beginner Level.</li>
+      <li>5 services for Level 1 sellers.</li>
+      <li>14 services for Level 2 sellers.</li>
+      <li>30 services for Top Rated sellers.</li>
+    </ul>
+  
+										 You can read more here <a href="terms_conditions.html#sellers">terms and conditions</a>. 
+                                        </div>
+                                    </div>
+                                </div>
+								<div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">11.
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseEleven">What happens in a failed transaction, i.e if I do not like the seller's product?</a>
+                                        </h3>
+                                    </div>
+                                    <div id="collapseEleven" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                         If a transaction fails due to a product not meeting specifications, the buyer and seller must agree before the transaction is cancelled. At this point, the money paid is refunded to the buyer's balance with a 3% return fee for processing. Should any further disput ensue, please contact <a href="#mail-support">MSD support</a>. 
+										 You can read more here <a href="terms_conditions.html#sellers">terms and conditions</a>. 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .panel-body -->
+                    </div>
+                    <!-- /.panel -->
+					<h5>Cant find what you need? Why not send us a mail?</h5>
+					<form id="mail-support" method="POST" action="">
+					<div class="form-group input-group">
+                                            <input name="email_text" placeholder="Type Your Message here..." class="form-control" type="text">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="submit">Send
+                                                </button>
+                                            </span>
+                                        </div>
+					</form>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php include('includes/footer.php');?>
+
+<?php //mail sending to support
+
+
+//$email_body = sanitizString($_POST['email_text']);
+/*$support_email = "support@ChoiceWorker.com";
+require 'includes/PHPMailer/PHPMailerAutoload.php';
+
+$mail = new PHPMailer;
+
+//$mail->SMTPDebug = 3;                               // Enable verbose debug output
+
+$mail->isSMTP();                                      // Set mailer to use SMTP
+$mail->Host = 'smtp1.example.com;smtp2.example.com';  // Specify main and backup SMTP servers
+$mail->SMTPAuth = true;                               // Enable SMTP authentication
+$mail->Username = '';                 // SMTP username
+$mail->Password = 'secret';                           // SMTP password
+$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+$mail->Port = 587;                                    // TCP port to connect to
+
+$mail->setFrom($_SESSION['email'], $_SESSION['username']);
+$mail->addAddress($support_mail, $support_name);     // Add a recipient
+//$mail->addAddress('ellen@example.com');               // Name is optional
+$mail->addReplyTo($_SESSION['email'], $_SESSION['username']);
+//$mail->addCC('cc@example.com');
+//$mail->addBCC('bcc@example.com');
+//
+//$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+//$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+$mail->isHTML(true);                                  // Set email format to HTML
+
+$mail->Subject = '';
+$mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+if(!$mail->send()) {
+    echo 'Message could not be sent.';
+    echo 'Mailer Error: ' . $mail->ErrorInfo;
+} else {
+    echo 'Message has been sent';
+}
+*/
+
+?>
+
+ <!--css include file-->
+		  <?php include 'js/js.php';?>
+        
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--SEO-->
+        <meta name="Keywords" content="Gig, skill, online marketplace, services, myskilldomain, featured services, MSD">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="google-site-verification" content="8eecgU41tTc6VawiYRwMwWHGW21KNb7av8D8iU2AEHA" />
+        <title>ChoiceWorker | <?php echo $gig['name'];?></title>
+		
+       <!--css include file-->
+		  <?php include 'css/css.php';?>
+        
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    </head>
+    <body>
+       <?php include 'includes/header.php';?>
+		<div class="jumbotron"> 
+            <div class="container-fluid">
+                <!-- Example row of columns -->
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8"> 
+                        <div class="panel"> 
+                            <div class="caption text-center"> 
+                                <h3><?php
+							echo $gig['name'];
+							?></h3> 
+                            </div>
+                            <div class="panel-body">
+                                <div id="carousel1" class="carousel slide" data-ride="carousel"> 
+                                    <!-- Indicators -->                                     
+									<ol class="carousel-indicators"> 
+                                        <li data-target="#carousel1" data-slide-to="0" class="active"></li>                                         
+                                                <?php for ($i=1 ; $i < $image_query->rowCount(); $i++){
+														echo '<li data-target="#carousel1" data-slide-to="'.$i.'"></li> ';	 } ?>                                      
+                                    </ol>                                     
+                                    <!-- Wrapper for slides -->                                     
+                                    <div class="carousel-inner"> 
+                                        <?php
+ 		$count =-1;
+		while($source = $image_query->fetch(PDO::FETCH_NUM)){
+		$count++;
+		 $src = array();
+	
+		$src[$count] = $source[0];
+		if($count < 1){
+		echo '<div class="item active"> 
+                                            <img src="'.$src[$count].'" alt="'.$gig['name'].'"/> 
+                                            <div class="carousel-caption"> 
+                                                <h3>Slide 1 title</h3> 
+                                                <p>Slide 1 description.</p> 
+                                            </div>                                             
+                                        </div>';
+		}
+		else{
+		echo '<div class="item"> 
+                                            <img src="'.$src[$count].'" alt="'.$gig['name'].'"/> 
+                                            <div class="carousel-caption"> 
+                                                <h3>Slide 1 title</h3> 
+                                                <p>Slide 1 description.</p> 
+                                            </div>                                             
+                                        </div>';
+		}
+	}?>
+	<!--<div class="item"> 
+                                            <img src="../img/img1.jpg" alt="'.$gig['name'].'"/> 
+                                            <div class="carousel-caption"> 
+                                                <h3>Slide 1 title</h3> 
+                                                <p>Slide 1 description.</p> 
+                                            </div>                                             
+                                        </div>
+										<div class="item"> 
+                                            <img src="../img/img2.jpg" alt="'.$gig['name'].'"/> 
+                                            <div class="carousel-caption"> 
+                                                <h3>Slide 1 title</h3> 
+                                                <p>Slide 1 description.</p> 
+                                            </div>                                             
+                                        </div>-->
+									</div>                                     
+                                    <!-- Controls -->                                     
+                                    <a class="left carousel-control" href="#carousel1" data-slide="prev"> <span class="fa fa-chevron-left"></span> </a> 
+                                    <a class="right carousel-control" href="#carousel1" data-slide="next"> <span class="fa fa-chevron-right"></span> </a> 
+                                </div>                                 
+                                <div> 
+                                    <h3 class="text-center">Details</h3> 
+                                    <div class="row">
+                                        <div class="col-lg-8 col-md-8 col-xs-8">
+                                            <h4>Basic </h4>
+                                            <h5>What it offers?</h5>
+											<p><?php echo $gig['desc'];?></p>
+                                            <ul>
+                                                <li>What the service offers</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-xs-4">
+                                            <h5>Duration</h5>
+                                            <p id="std-duration"><?php echo $gig_dur['std']; if ( $gig_dur['std'] > 1){ echo 'Days'; }else {echo 'Day';}?> </p>
+                                            <h5>Price</h5>
+											<p><?php echo " &#8358;".$price['standard'];?></p> 
+                                        </div>                                         
+                                    </div>
+                                    
+                                    <?php  if (isset($extra_desc['desc1'])){
+
+										if ($extra_desc['desc1'] ==""){
+									echo '';
+									}
+									else{
+									?>	
+									<li class="divider"></li>
+									<div class="row">
+                                        <div class="col-lg-8 col-md-8 col-xs-8">
+                                            <h4>Jara #1</h4>
+                                            <h5> What it offers?</h5>
+											<p><?php echo $extra_desc['desc1'];?></p>
+                                            <ul>
+                                                <li>WHat the service offers</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-xs-4">
+                                            <h5>Duration</h5>
+                                            <p id="duration-1"><?php echo $gig_dur['extra1']; if ( $gig_dur['extra1'] > 1){ echo ' Days'; }else {echo ' Day';}?> </p>
+											<h5>Price</h5>
+											<p><?php echo " &#8358;".$price['extra1'];?></p> 
+										</div>
+                                    </div>
+									<?php }} else echo '';?> 
+                                    
+									<?php  if (isset($extra_desc['desc2'])){
+
+										if ($extra_desc['desc2'] ==""){
+									echo '';
+									}
+									else{
+									?>
+									<li class="divider"></li>
+									<div class="row">
+                                        <div class="col-lg-8 col-md-8 col-xs-8">
+                                            <h4>Jara #2</h4>
+                                            <h5> What it offers?</h5>
+											<p><?php echo $extra_desc['desc2'];?></p>
+                                            <ul>
+                                                <li>WHat the service offers</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-xs-4">
+                                            <h5>Duration</h5>
+                                            <p id="duration-2"><?php echo $gig_dur['extra2']; if ( $gig_dur['extra2'] > 1){ echo ' Days'; }else {echo ' Day';}?> </p>
+											<h5>Price</h5>
+											<p><?php echo " &#8358;".$price['extra2'];?></p> 
+										</div>
+                                    </div>
+									<?php }} else echo '';?>
+								</div>
+                            </div>
+                        </div>                         
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4">
+                        <!--pricing panel-->
+						<div class="col-sm-12 col-md-12 col-xs-12">
+                            <div class="panel">
+                                <div class="panel-heading text-center">
+                                    <form method="POST" action="http://<?php echo $site_url;?>/<?php echo $seller['name'];?>/<?php echo $gig['ID'];?>/order/">
+                                        <div class="formgroup" id="order-details">
+                                            <input type="submit" class="btn btn-success btn-lg" name="" value="Order Now">
+                                        </div>
+										<input type="hidden" name="gig_id" value="<?php echo $gig['ID'];?>"/>
+										<input type="hidden" name="order_id" value="<?php echo $gig['ID'].random(12);?>"/>
+										<input type="hidden" name="requirements" value="<?php echo $gig['require'];?>"/>
+                                    </form>
+                                    <form method="POST" action="order/cart.html">
+                                        <div class="formgroup">
+                                            <!--<input href="" type="submit" class="btn btn-success " name="shopping_cart" value="Add to Cart" disabled> -->                                             
+                                        </div>
+                                    </form>
+                                </div>                                 
+                               <div class="panel-body">
+                                    <div class=" text-center">
+                                       <div id="gig-price-list" data-toggle="radio">
+                                            <ul class="list-group">
+                                                <div class="form-group">
+                                                    <li class="list-group-item">
+                                                        <label>
+                                                            <input type="radio" id="basic-price" value="<?php echo $price['standard'];?>" name="price" onclick="checkBtn()"/> Basic 
+														</label>
+                                                        &#8358;3000                                
+                                                    </li>
+                                                </div>
+												<?php if($price['extra1'] == "" or $price['extra1'] == 0) {
+								echo '';
+								}
+								else{
+								echo '<div class="form-group">
+                                                    <li class="list-group-item">
+                                                        <label>
+                                                            <input type="radio" id="extra1-price" value="'.$price['extra1'].'" name="price" onclick="checkBtn()"> Jara #1
+                                                        </label>
+                                                         &#8358;'.$price['extra1'].'
+                                                    </li>
+                                                </div>     
+								
+								';}?>
+								<?php if($price['extra2'] == "" || $price['extra2'] == 0 ){
+								echo '';
+								}
+								else{
+								echo '<div class="form-group">
+                                                    <li class="list-group-item">
+                                                        <label>
+                                                            <input type="radio" id="extra2-price" value="'.$price['extra2'].'" name="price" onclick="checkBtn()"> Jara #2
+                                                        </label>
+                                                         &#8358;'.$price['extra2'].'
+                                                    </li>
+                                                </div>    ';}?>
+											</ul>
+                                        </div>                                         
+                                    </div>
+                                </div>                                 
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-xs-12">
+                            <div class="panel text-center">
+                                <div class="panel-body">Seller Profile
+                                    	<a href="#" class="thumbnail"> 
+											<img src="<?php echo $usersrc;?>" alt="<?php echo $seller['name'];?>"> 
+										</a>
+										<h3><?php echo $seller['name'];?><br></h3>
+										<p><?php echo $seller['level'];?></p>
+										<h5><?php echo $seller['location'];?> <br></h5>
+										<h5><span class=" fa fa-star" id="rating"></span>
+										<span class=" fa fa-star" id="rating"></span><span class=" fa fa-star" id="rating"></span></h5>
+                                </div>
+                                <form method="POST" action="http://<?php echo $site_url;?>/messages/">
+                                    <fieldset>
+                                     <input type="hidden" name="gig_id" value="<?php echo $gig['ID'];?>"/>
+									<input type="hidden" name="sellerid" value="<?php echo $seller['ID'];?>"/>
+									<input  class="btn btn-primary" type="submit" name="action" value="Contact Me"/> 
+									</fieldset>
+                                </form>                                 
+                            </div>                             
+                        </div>
+                    </div>                     
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8">
+                        <div class="panel">
+                            <div class="panel-heading text-center">
+                                <h3>
+            Reviews</h3>
+                            </div>                             
+                            <div class="panel-body"> 
+								<?php if(isset($_SESSION['username'])){
+								$q = selectMysql($pdo, "SELECT username FROM user_biodata WHERE username = '".$_SESSION['username']."'");
+								//$q = $q->fetchColumn();
+								if ($q->rowCount() == 1){
+			echo'<div class="list-group-item">
+                                    <form>
+                                        <fieldset>
+                                            <div class="form-group">
+                                                <textarea class="form-control" col="74" rows="5" id="review-text" name="review_text" style="border: 1px solid #01A1DC;" placeholder="'.$_SESSION['username'].' Type Your Review Here"></textarea>
+                                                <input id="sender" type="hidden" value="'.$_SESSION['username'].'" name="sender"/>
+												<input id="gig-id" type="hidden" value="'.$gig['ID'].'" name="gigid"/>	
+											</div>
+                                            <div class="form-group col-lg-7 col-md-7 col-xs-8 pull-left">
+                                                <select id="ratings" class="form-control" name="ratings">
+                                                    <option>Select Rating</option>'; 
+														for ($j = 1; $j<=5; $j++){
+														echo '<option value="'.$j.'">'.$j.'</option>';}
+														echo'
+                                                </select>
+                                            </div>
+                                            <span class="btn btn-success" onclick="review()" value="">Submit</span>
+                                        </fieldset>
+                                    </form>
+                                </div>';}
+   
+  }
+  if (isset($review_error)) echo $review_error;?>
+							
+                                
+                                <div id="review-error" class="text-warning"></div>
+                                <div class="list-group">
+                                    <div id="review-body">
+                                        	<?php 
+	
+$review_query = selectMysql($pdo, "SELECT review.gigid, review.senderid, review.review, user_biodata.username, 
+review.ratings, review.entry_date FROM review INNER JOIN user_biodata ON review.senderid =user_biodata.userid 
+WHERE review.gigid='".$gig['ID']."' ORDER BY review.entry_date DESC");
+	$review = array();
+	$now_date = new DateTime( date("Y-m-d H:i:s"));
+		//foreach($review_query as $lines){
+		while($lines = $review_query->fetch(PDO::FETCH_NUM)){
+			$review['ID'] = $lines[0];
+			$review['senderID'] = $lines[1];
+			$review['text'] = $lines[2];
+			$review['sendername'] = $lines[3];
+			$review['ratings'] = $lines[4];
+			$review['entry_date'] = $lines[5];
+			
+			
+	$date_period = dateDiff($review['entry_date'],$now_date);
+			$image_sql = selectMysql($pdo, "SELECT filepath from filestore WHERE authorid ='".$review['senderID']."' AND description ='user-profile'");
+			$review_image = $image_sql->fetchColumn();
+			
+	echo ' 								<div class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-xs-3 col-md-3"> 
+                                                    <div class="thumbnail"> 
+                                                        <img src="'.$review_image.'" alt=""> 
+                                                    </div>                                                     
+                                                </div>
+												<div class="col-xs-9 col-md-9">
+													<h5 class="list-group-item-heading">
+													'. $review['sendername']; for ($i= 1; $i <= $review['ratings']; $i++){
+													echo '<cite><span class="pull-right fa fa-star" id="rating"></span></cite>';} echo '</h5>
+													<p class="list-group-item-text">'. $review['text'].'</p> 
+													<p><em> '.$date_period.' ago'.'</em></p>
+                                                </div>
+                                            </div>
+                                        </div>';}?>
+                                    </div>
+                                </div>
+                            </div>                             
+                        </div>
+                    </div>
+                </div>
+            </div>             
+        </div>
+        
+       <?php include 'includes/footer.php';?>
+		<!-- Main jumbotron for a primary marketing message or call to action -->         
+        <!-- /container -->
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+      <!--js include file-->
+		  <?php include 'js/js.php';?>
+        
+	<script>
+		function review(){
+		var sender = document.getElementById('sender').value;
+		var gigid = document.getElementById('gig-id').value;
+		var text = document.getElementById('review-text').value;
+		var ratings = document.getElementById('ratings').value;
+		
+			//alert(ratings);
+			
+			if (text !=="" && ratings !== "" && ratings !== "Select Rating" ) {
+			
+			  if (window.XMLHttpRequest) {
+            		// code for IE7+, Firefox, Chrome, Opera, Safari
+            		xmlhttp = new XMLHttpRequest();
+        		} else {
+            		// code for IE6, IE5
+           			 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        			}
+        			xmlhttp.onreadystatechange = function() {
+           			 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+               			 document.getElementById("review-body").innerHTML = xmlhttp.responseText;
+document.getElementById("review-error").innerHTML = "";
+	document.getElementById('review-text').value ="";
+	document.getElementById('ratings').value ="Select Rating";
+	        		}
+        			};
+       				 xmlhttp.open("GET","../review.php?sender="+sender+"&gigid="+gigid+"&review_text="+text+"&ratings="+ratings,true);
+       					 xmlhttp.send();
+			 
+			 }
+			 else document.getElementById("review-error").innerHTML = "Please enter valid  Review and rating. Thank You <span class='fa fa-thumbs-up'></span>";
+		}
+		
+		
+		
+	
+	//alert(str);
+			
+			/*	 document.getElementById("subcategory").innerHTML = '<span class=" bold-italics">Loading...</span>';
+				if (str == "") {
+        document.getElementById("subcategory").innerHTML = "";
+		
+        return;
+    } else { 
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("subcategory").innerHTML = xmlhttp.responseText;
+            }
+        };
+        xmlhttp.open("POST","review.php?q="+str,true);
+        xmlhttp.send();
+    }*/
+	 
+			
+			
+	
+		
+		
+		
+		function checkBtn(){
+			
+		if (document.getElementById("basic-price").checked){
+			var check = document.getElementById("basic-price").value;
+			var dur = document.getElementById("std-duration").innerHTML;
+
+			
+			document.getElementById("order-details").innerHTML = "<input  class='btn btn-success btn-lg' type='submit' value='Order Now &#8358;"+ check + "'/><input name='order_type' type='hidden' value='basic'/><input name='order_duration' type='hidden' value='"+dur+"'/><input id='order-price' type='hidden' name='order_price' value='"+ check +"'/>"; 
+		
+			document.getElementById("order-price").value = check;
+			//alert(check); 
+			}
+			else if (document.getElementById("extra1-price").checked){
+			var check = document.getElementById("extra1-price").value;
+			var dur = document.getElementById("duration-1").innerHTML;
+
+			document.getElementById("order-details").innerHTML = "<input  class='btn btn-success btn-lg' type='submit' value='Order Now &#8358;"+check+ "'/><input name='order_type' type='hidden' value='extra#1'/><input name='order_duration' type='hidden' value='"+dur+"'/><input id='order-price' type='hidden' name='order_price' value='"+ check +"'/>"; 
+		
+			document.getElementById("order-price").value = check;
+			}
+			else if (document.getElementById("extra2-price").checked){
+			var check = document.getElementById("extra2-price").value;
+			var dur = document.getElementById("duration-2").innerHTML;
+				
+			document.getElementById("order-details").innerHTML = "<input  class='btn btn-success btn-lg' type='submit' value='Order Now &#8358;"+ check + "'/><input name='order_type' type='hidden' value='extra#2'/><input name='order_duration' type='hidden' value='"+dur+"'/><input id='order-price' type='hidden' name='order_price' value='"+ check +"'/>"; 
+		
+			document.getElementById("order-price").value = check;
+			}
+			
+		}
+	</script>
+	
+    </body>
+</html>

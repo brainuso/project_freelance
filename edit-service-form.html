@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title> ChoiceWorker | <?php echo $gig['name'];?> | Edit </title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+    		<meta http-equiv="X-UA-Compatible" content="IE= edge">
+		<!--css include file-->
+		<?php include 'css/css.php';?>
+        
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../bower_components/html5shiv/dist/html5shiv.js"></script>
+      <script src="../bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+</head>
+  <body class="" style="">
+	
+	<?php include  'includes/header.php';?>
+	
+	
+	
+<div class="jumbotron">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-8">
+				
+				
+				<div class="">
+					<header class="">
+                        <h4> Edit Service
+                            <small class="pull-right">Gig Language: <span>English</span></small>   
+                        </h4>        
+                    </header>
+				</div>	
+				<ul class="nav nav-tabs">
+					<li class="active"><a aria-expanded="true" href="#gig-setup" data-toggle="tab">
+					Description</a></li>
+					<li class=""><a aria-expanded="false" href="#gig-pricing" data-toggle="tab">
+					 Pricing</a></li>
+					<li class=""><a aria-expanded="false" href="#requirements" data-toggle="tab">
+					Requirements</a></li>	
+					<li class=""><a aria-expanded="false" href="#gallery" data-toggle="tab">
+					Gallery</a></li>
+				</ul>
+				<form method="POST" action="" id="form-create-gig" class="form-horizontal" enctype="multipart/form-data">
+				<fieldset>
+				<div id= "myTabContent" class="tab-content"> 
+					<div class="tab-pane fade active in" id="gig-setup">
+						<div class="panel panel-default">
+							<div class="panel-body">
+							<legend>Description</legend>
+									<h4>What is your service about?</h4>
+								
+									<div class="form-group">
+										<label for="gigTitle" class="col-lg-2 control-label">Gig Title
+										<span class=" text-warning fa fa-info-circle fa-nm" type="button" data-html="true" data-toggle="popover" 
+									data-content=
+									"<p>A service is made up of many interesting parts.<br>
+									This part is what we call <span class='bold-italics'> 'Your Pitch'</span>. It is a clear, short message on what service you are selling.<br><span class='bold-italics'>I will build a website for...</span></p>
+									" data-placement="right" title="" data-original-title="<h5>service Title</h5>"></span>
+										</label>
+										<div class="col-lg-8">
+										<textarea autocapitalize="ON" class="form-control" id="gig-title" name="gig[title]" style="border: 1px solid #01A1DC;" placeholder="I will/can...do something I'm really good at" type="text" row="2" maxlength="80" onkeyup="Count()"><?php if (isset($gig['name'])) echo $gig['name'];?><?php if(isset($gigtitle))echo $gigtitle;?></textarea>
+										<div class="pull-right"><em id="count"></em></div>
+										<?php if (isset( $gigtitle_error)) echo  $gigtitle_error ;?>
+										</div>
+									</div>
+									
+									<div id="category" class="form-group">
+								
+										<label for="category-sel" class="col-lg-2 control-label">Category
+										<span class=" text-warning fa fa-info-circle fa-nm" type="button" data-html="true" data-toggle="popover" 
+									data-content=
+									"<p>Select a Category and Subcategory that reflects the Gig you are offering.<br> Customers will also be able to find your Gig on category basis.</p>
+									" data-placement="right" title="" data-original-title="<h5>Gig Category</h5>"></span>
+										</label>
+										<div class="col-lg-5">
+											<select class="form-control" name="gig[category]" onchange="showSub(this.value)" id="gig-category" style="border: 1px solid #01A1DC;">
+											<?php if (isset($gig['catname'])) {
+											echo '
+												<option value="'.$gig['catname'].'">'.$gig['cattitle'].'</option>';}?>
+												
+												<?php if(isset($gigcategory)){ $a=selectMysql($pdo, "SELECT title FROM category WHERE name='".$gigcategory."'"); $gigcattitle = $a->fetchColumn(); echo '<option value="'.$gigcategory.'">'.$gigcattitle.'</option>';}?>
+												
+												<?php 
+												$catsql= selectMysql($pdo, "SELECT id, name, title FROM category");
+ $catlist = array();
+while($row = $catsql->fetch(PDO::FETCH_NUM)){
+	 $catlist['ID'] = $row[0];
+	 $catlist['name'] = $row[1];
+	 $catlist['title'] = $row[2];
+	 echo "<option value=".($catlist['name']).">".($catlist['title'])."</option>";
+}
+												?>
+											</select>
+
+										</div><?php if (isset( $gigcategory_error)) echo  $gigcategory_error ;?>
+									</div>	
+									 
+									
+									<div id="subcategory" class="form-group">
+											<label for="select" class="col-lg-2 control-label">Subcategory</label>
+										<div class="col-lg-5">
+											<select class="form-control" id="gig-subcategory" name="gig[subcategory]" style="border: 1px solid #01A1DC;">
+											<?php if (isset($gig['subcattitle'])){
+											 echo '
+												<option value="'. $gig['subcatname'].'">'. $gig['subcattitle'].'</option>';}?>
+ 		<?php if(isset($gigsubcategory)){ $b=selectMysql($pdo, "SELECT title FROM gig_category WHERE name='".$gigsubcategory."'"); $gigsubcattitle = $b->fetchColumn();  echo '<option value="'.$gigsubcategory.'">'.$gigsubcattitle.'</option>';
+											}
+											
+											?>
+		</select>
+									</div><?php  if (isset( $gigsubcategory_error)) echo  $gigsubcategory_error ;
+											?>	
+									</div>
+									<div class="form-group">
+										<label for="gig-desc" class="col-lg-2 control-label">Description
+										<span class=" text-warning fa fa-info-circle fa-nm" type="button" data-html="true" data-toggle="popover" 
+									data-content=
+									"<p> Give a full description of what a customer is paying for when they buy your gig.</p>" 
+									data-placement="right" title="" data-original-title="<h5>Describe Your Gig</h5>"></span>
+										</label>
+										<div class="col-lg-8">
+											<textarea style="border: 1px solid #01A1DC;" class="form-control" rows="5" id="gig-desc" name="gig[desc]" placeholder="Give us a description of what you are offering on MSD"><?php if (isset($gig['desc'])) echo $gig['desc'];?><?php if(isset($gigdesc))echo $gigdesc;?></textarea>
+										<?php if (isset( $gigdesc_error)) echo  $gigdesc_error ;?>
+										</div>
+									</div>
+									<!--<div class="form-group">
+										<label for="gig-tag" class="col-lg-2 control-label">Tags</label>
+										<div class="col-lg-8">
+											<textarea style="border: 1px solid #01A1DC;" class="form-control" rows="2" cols="74" id="gig_tag_list" maxlength="100" name="gig[tag_list][]" placeholder="Pick words that best describe your gig. Helps us sort out where to place it. Separate each word by a comma, like this: cook, design, craft."></textarea>
+											<small class="pull-right"><em>min. of 3 tags, each separated by a comma</em></small>
+										</div>
+									</div>-->
+									<div class="form-group">
+										<label for="gig-duration" class="col-lg-2 control-label">Duration
+										<span class=" text-warning fa fa-info-circle fa-nm" type="button" data-html="true" data-toggle="popover" 
+									data-content=
+									"<p> We know that rendering quality services takes time. We don't want your customers worried, so give them a time frame for delivery.<br> This will also help you schedule your work.</p>" 
+									data-placement="right" title="" data-original-title="<h5>Whats the delivery time?</h5>"></span>
+										</label>
+										<div class="col-lg-5">
+										<p>Maximum days to deliver
+										
+										<select  name="gig[standard][dur]"  id="gig-duration" class="form-control">
+										
+										<?php if (isset($dur['std'])) echo '
+										<option data-field-value="'. $dur['std'].'">'. $dur['std'].' Day(s)</option>';?>
+										<?php if(isset($gigstddur))echo '<option data-field-value="'.$gigstddur.'">'.$gigstddur.'</option>';?>
+												<?php for ($i = 1; $i < 30 ; $i++){
+													if ($i == 1){
+												echo '<option data-field-value="'.$i.'">'.$i.' Day</option>';
+												}else {
+												echo '<option data-field-value="'.$i.'">'.$i.' Days</option>';
+												}
+												}?>
+											</select>
+										</p>
+											<?php if (isset( $gigstddur_error)) echo  $gigstddur_error ;?>
+										</div>
+									</div>
+							</div>
+						</div>
+					</div>	
+					<div class="tab-pane fade" id="gig-pricing">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<legend>Pricing Mechanics</legend>
+								  <h4>Got something <em>Extra</em> to offer? </h4>
+								  <p>Besides your <em>standard</em> offer, you can give a <em>Premium</em> offer by increasing the quality of the service.
+									<div class="form-group">
+										<table class="table table-striped table-hover ">
+  <thead>
+    <tr>
+      
+      <th class="col-md-2">Standard <span class=" text-warning fa fa-info-circle fa-nm" type="button" data-html="true" data-toggle="popover" 
+									data-content=
+									"<p> A Standard price of &#8358;3000 is for your basic service. To offer more quality for more money, use the extras.</p>" 
+									data-placement="right" title="" data-original-title="<h5>Standard Pricing</h5>"></span>
+									</th>
+      <th>Extra #1 <span class=" text-warning fa fa-info-circle fa-nm" type="button" data-html="true" data-toggle="popover" 
+									data-content=
+									"<p> An Extra allows you to offer premium services to customers at a higher price.<br> Customers have different needs, you need to tailor your services to them. Alot of customers go for faster delivery options. Trust us we know.</p>" 
+									data-placement="right" title="" data-original-title="<h5>More Quality, More Money</h5>"></span>
+					</th>
+      <th>Extra #2 <span class=" text-warning fa fa-info-circle fa-nm" type="button" data-html="true" data-toggle="popover" 
+									data-content=
+									"<p>More value = More money.</p>" 
+									data-placement="right" title="" data-original-title="<h5>More Quality, More Money</h5>"></span>
+					</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td></td>
+      <td><textarea style="border: 1px solid #01A1DC;" class="form-control" rows="2" cols="74" id="gig_extra1_desc" name="gig[extra1][desc]" placeholder="What's the 'extra' you are offering?"><?php if (isset($extra_desc['desc1'])) echo $extra_desc['desc1'];?><?php if(isset($gigextra1desc)) echo $gigextra1desc;?></textarea><?php if (isset( $gigextra1desc_error)) echo  $gigextra1desc_error ;?></td>
+     
+	 <td><textarea style="border: 1px solid #01A1DC;" class="form-control" rows="2" cols="74" id="gig-extra2-desc" name="gig[extra2][desc]" placeholder="What's the 'extra' you are offering?"><?php  if (isset($extra_desc['desc2'])) echo $extra_desc['desc2'];?><?php if(isset($gigextra2desc)) echo $gigextra2desc;?></textarea><?php if (isset( $gigextra2desc_error)) echo  $gigextra2desc_error ;?></td>
+      
+    </tr>
+	
+    <tr>
+    <td>&#8358; 3000</td>
+      <td><textarea style="border: 1px solid #01A1DC;" class="form-control" rows="2" cols="74" id="gig-extra1-price" name="gig[extra1][price]" placeholder="how much will you charge for the 'extra' service"><?php if (isset($price['extra1'])){ if($price['extra1']==0){ }else{ echo $price['extra1'];}}?><?php if(isset($gigextra1price) && $gigextra2price!==0){echo $gigextra1price;}?></textarea><?php if (isset( $gigextra1price_error)) echo  $gigextra1price_error ;?></td>
+    
+	<td><textarea style="border: 1px solid #01A1DC;" class="form-control" rows="2" cols="74" id="gig-extra2-price"  name="gig[extra2][price]" placeholder="how much will you charge for the 'extra' service"><?php if (isset($price['extra1'])){ if($price['extra2']==0){}else{echo $price['extra2'];}}?><?php if(isset($gigextra2price) && $gigextra2price!== 0){echo $gigextra2price;}?></textarea><?php if (isset( $gigextra2price_error)) echo  $gigextra2price_error ;?></td>  
+    
+    </tr>
+    <tr>
+  
+      <td></td>
+      <td>
+		<select  name="gig[extra1][dur]"  id="gig-extra1-dur" class="form-control">
+										<?php if(isset($dur['extra1'])){
+										if($dur['extra1'] == 0){echo '<option>Select Duration of Delivery</option>'; } else{
+										echo '<option data-field-value="'.$dur['extra1'].'">'.$dur['extra1'].' Day(s)</option>';}}?>
+										<?php if(isset($gigextra1dur))echo '<option data-field-value="'.$gigextra1dur.'">'.$gigextra1dur.'</option>';?>
+												<?php for ($i = 1; $i < 30 ; $i++){
+													if ($i == 1){
+												echo '<option data-field-value="'.$i.'">'.$i.' Day</option>';
+												}else {
+												echo '<option data-field-value="'.$i.'">'.$i.' Days</option>';
+												}
+												}?>
+											</select><?php if (isset( $gigextra1dur_error)) echo  $gigextra1dur_error ;?>
+										</td>
+      <td>	<select  name="gig[extra2][dur]"  id="gig-extra2-dur" class="form-control">
+										  <?php if(isset($dur['extra2'])){
+										if($dur['extra2'] == 0){echo '<option>Select Duration of Delivery</option>'; } else{
+										echo '<option data-field-value="'.$dur['extra2'].'">'.$dur['extra2'].' Day(s)</option>';}}?>
+	    <?php if(isset($gigextra2dur))echo '<option data-field-value="'.$gigextra2dur.'">'.$gigextra2dur.'</option>';?>
+							<?php for ($i = 1; $i < 30 ; $i++){
+													if ($i == 1){
+												echo '<option data-field-value="'.$i.'">'.$i.' Day</option>';
+												}else {
+												echo '<option data-field-value="'.$i.'">'.$i.' Days</option>';
+												}
+												}?>
+											</select><?php if (isset( $gigextra2dur_error)) echo  $gigextra2dur_error ;?>
+											</td>
+    </tr>
+   
+  </tbody>
+</table> 
+									</div>	
+									
+									
+							</div>
+						</div>
+	</div>
+  <div class="tab-pane fade" id="requirements">
+    <div class="panel panel-default">
+							<div class="panel-body">
+								<legend>Requirements</legend>
+								
+								
+									<h4> What do you need to get started? Tell the buyer.</h4>
+									<p>Give out all the necessary details to carry out the service.
+									<span class=" text-warning fa fa-info-circle fa-nm" type="button" data-html="true" data-toggle="popover" 
+									data-content=
+									"<p>We know that you will need some items or information from the customer to complete the service.<br> Outline your requirements here so your customers can see them when they order.</p>" 
+									data-placement="right" title="" data-original-title="<h5>service Requirements</h5>"></span>
+									</p>
+
+									<div class="form-group">
+										<div class="col-lg-8">
+											<textarea required style="border: 1px solid #01A1DC;" class="form-control" rows="3" id="gig-require" name="gig[require]" placeholder="Copy and paste from your document or write it here."><?php if (isset($gig['require']))  echo $gig['require'];?><?php if(isset($gigrequire))echo $gigrequire;?></textarea>
+										<?php if (isset( $gigrequire_error)) echo  $gigrequire_error ;?></div>
+									</div>					
+   
+  
+								
+							</div>
+						</div> 
+	</div>
+  
+  
+  <div class="tab-pane fade" id="gallery">
+<div class="panel panel-default">
+							<div class="panel-body">
+								<legend>Gallery</legend>
+								
+								
+									<h4> A picture speaks a thousand words. Show off some work.</h4>
+									<p> Upload photos that describe the service you are offering.
+									 <span class=" text-warning fa fa-info-circle fa-nm" type="button" data-html="true" data-toggle="popover" 
+									data-content=
+									"<p>A gig without portfolio is uninteresting. Add images. Capture your buyers.</p>" 
+									data-placement="right" title="" data-original-title="<h5>Gig Gallery</h5>"></span>
+									</p>
+									
+									
+										
+				<div class="form-group">
+				<label for="gig-photo-1" class="col-lg-2 control-label">Photo 1</label>
+				<div class="col-lg-6">
+							<input name="gig[photo][1]" id="gig-photo-1" placeholder="Choose File" value="<?php if(isset($filename)) echo $filename;?><?php if(isset($_FILES['gig_photo_1']['name'])) echo $_FILES['gig_photo_1']['name']; ?>" disabled="disabled"/>
+						<?php if(isset($filename)) echo '<input type="hidden" name="old_filename" value="'.$filename.'"/>';?>
+							<div class="fileUpload btn btn-default">
+						<span>Add Photo</span> <span class="fa fa-chain"></span><input name="gig_photo_1" id="uploadBtn1" class="upload" type="file" value=""/>
+						</div>
+						<input type="hidden" value="image1" name="action"/>
+						<div id="preview" class="thumbnail"><img class="" src="<?php if(isset($filepath)) echo $filepath; ?>"/></div>
+							<?php if(isset($filepath)) echo '<input type="hidden" name="old_filepath" value="'.$filepath.'"/>';?>
+							<div id="data" class="">
+                    <h4 id="name"></h4>
+                    <p id="size"></p>
+                    <p id="type"><?php if(isset($mimetype)) echo $mimetype;?></p>
+                </div>
+				<div id="image-status"></div>
+				<?php if(isset($image1_error)) echo $image1_error;?>
+					</div>
+						</div>
+						
+						<div class="form-group">
+										<label for="gig-photo-2" class="col-lg-2 control-label">Photo 2</label>
+										<div class="col-lg-6">
+							<input name="gig[photo][2]" id="gig-photo-2" placeholder="Choose File"  value="<?php if(isset($filename2)) echo $filename2;?><?php if(isset($_FILES['gig_photo_2']['name'])) echo $_FILES['gig_photo_2']['name']; ?>" disabled="disabled" />
+							<?php if(isset($filename2)) echo '<input type="hidden" name="old_filename_2" value="'.$filename2.'"/>';?>
+							<div class="fileUpload btn btn-default">
+						<span>Add Photo</span> <span class="fa fa-chain"></span><input name="gig_photo_2" id="uploadBtn2" class="upload" type="file" value=""/>
+						</div>
+						<input type="hidden" value="image2" name="action"/>
+						<div id="preview2" class="thumbnail"><img class="" src="<?php if(isset($filepath2)) echo $filepath2; ?>"/></div><?php if(isset($filepath2)) echo '<input type="hidden" name="old_filepath_2" value="'.$filepath2.'"/>';?>
+							<div id="data" class="">
+                    <h4 id="name2"></h4>
+                    <p id="size2"></p>
+                    <p id="type2"><?php if(isset($mimetype2)) echo $mimetype2;?></p>
+                </div>
+				<div id="image-status2"></div>
+				<?php if(isset($image2_error)) echo $image2_error;?>
+						
+						</div></div>
+						
+						<p><small> Image Specifications <br/><strong>Format: JPEG | JPG file</strong>, <strong>Size: 5 MB</strong> Max, you own the copyright images, not someone else's.</small></p>
+										<!--<div class=" col-lg-8">
+											<div id= "gig-photo" class=" well text-center" style="border: 1px solid #01A1DC;">
+												<div style="height: auto; overflow: hidden; position: relative; text-align: center; width: auto;" id="get-photo-file2" class="btn btn-default">
+													Browse
+													<input style="display: none;" id="gig-photo2" name="gig[photo][2]" type="file"/>
+													<input style="opacity: 0; position: absolute; right: -3px; top: -3px; z-index: 999;" type="file"/>
+													</div><br/> 
+											<small> Specifications <br/><strong>JPEG | JPG file</strong>, <strong>5 MB</strong> Max, you own the copyrights</small>
+											</div>
+										</div>-->
+									
+																						
+    
+  
+									<div class="text-center">		
+					<input class=" btn btn-success btn-lg " type="submit" name="action" value= "Submit Changes"/>
+               </div>
+							</div>
+						</div>  
+</div>
+</div><input type="hidden" name="gigid" value="<?php echo $gig['ID'];?>"/>
+	<div class="text-center"> <h4>If you are done with this panel click on the next tab above</h4></div> 
+						</fieldset>
+						
+						</form>
+					
+			</div>
+		</div>
+    </div>
+</div>
+
+                        
+
+	<?php include 'includes/footer.php';?>
+         
+  <!--js include file-->
+		<?php include 'js/js.php';?>
+		<script>
+	 
+	   function Count(){
+		var charset = document.getElementById('gig-title').value;
+		 document.getElementById('count').innerHTML= ' ' + charset.length +'/80 max';
+		 	 		   $(document).ready(function(){
+
+		  if ( charset.length <= 65){
+			
+				//$('#count').addClass('text-success bold-italics');
+				$('<span class="text-success pull-left"> Within limits </span>').prependTo("#count");
+}
+		 else if (charset.length > 65){
+			
+				//$('#count').removeClass('text-success bold-italics').addClass('text-warning bold-italics');
+				$('<span class="text-warning pull-left"> You approaching critical mass </span>').prependTo("#count");
+		}
+		  });
+	  }
+	  
+	 
+
+	 //ajax subcategory call
+	 
+	 
+	 function showSub(str){
+	
+			
+				 document.getElementById("subcategory").innerHTML = '<span class=" bold-italics">Loading...</span>';
+				if (str == "") {
+        document.getElementById("subcategory").innerHTML = "";
+		
+        return;
+    } else { 
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("subcategory").innerHTML = xmlhttp.responseText;
+            }
+        };
+        xmlhttp.open("GET","../../displaysubcat.php?q="+str,true);
+        xmlhttp.send();
+    }	
+	 }
+			
+			
+		/*  jQuery(function($){
+var fileDiv = document.getElementById("upload");
+var fileInput = document.getElementById("upload-image");
+console.log(fileInput);
+fileInput.addEventListener("change",function(e){
+  var files = this.files
+  showThumbnail(files)
+},false)
+
+fileDiv.addEventListener("click",function(e){
+  $(fileInput).show().focus().click().hide();
+  e.preventDefault();
+},false)
+
+fileDiv.addEventListener("dragenter",function(e){
+  e.stopPropagation();
+  e.preventDefault();
+},false);
+
+fileDiv.addEventListener("dragover",function(e){
+  e.stopPropagation();
+  e.preventDefault();
+},false);
+
+fileDiv.addEventListener("drop",function(e){
+  e.stopPropagation();
+  e.preventDefault();
+
+  var dt = e.dataTransfer;
+  var files = dt.files;
+
+  showThumbnail(files)
+},false);
+
+function showThumbnail(files){
+  for(var i=0;i<files.length;i++){
+    var file = files[i]
+    var imageType = /image.*/
+    /*if(!file.type.match(imageType)){
+      console.log("Not an Image");
+      continue;
+    }
+
+    var image = document.createElement("img");
+    // image.classList.add("")
+    var thumbnail = document.getElementById("thumbnail");
+    image.file = file;
+    thumbnail.appendChild(image)
+
+    var reader = new FileReader()
+    reader.onload = (function(aImg){
+      return function(e){
+        aImg.src = e.target.result;
+      };
+    }(image))
+    var ret = reader.readAsDataURL(file);
+    var canvas = document.createElement("canvas");
+    ctx = canvas.getContext("2d");
+    image.onload= function(){
+      ctx.drawImage(image,100,100)
+    }
+  }
+}
+          });*/</script>
+
+   <script>
+	/*
+
+
+
+
+
+
+	<label for="select" class="col-lg-2 control-label">Subcategory</label>
+										<div class="col-lg-5">
+											<select class="form-control" id="gig-subcategory" name="gig[subcategory]" style="border: 1px solid #01A1DC;">
+												<option value="<?php echo $gig['subcatid'];?>"><?php echo $gig['subcattitle'];?></option>
+												
+												</select>
+										</div>
+	
+	
+	
+	
+	
+	document.getElementById("uploadBtn1").onchange = function(){
+		document.getElementById("gig-photo-1").value = this.value;
+	
+		};
+	document.getElementById("uploadBtn2").onchange = function(){
+		document.getElementById("gig-photo-2").value = this.value;
+		};
+		 
+		 */
+		 
+		 
+	
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+		
+    
+   //this is not completely neccesary, just a nice function I found to make the file size format friendlier
+    //http://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable
+    function humanFileSize(bytes, si) {
+        var thresh = si ? 1000 : 1024;
+        if(bytes < thresh) return bytes + ' B';
+        var units = si ? ['kB','MB','GB','TB','PB','EB','ZB','YB'] : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
+        var u = -1;
+        do {
+            bytes /= thresh;
+            ++u;
+        } while(bytes >= thresh);
+        return bytes.toFixed(1)+' '+units[u];
+    }
+
+	//this function is called when the input loads an image for first photo
+    function renderImage(file){
+        var reader = new FileReader();
+        reader.onload = function(event){
+            the_url = event.target.result
+      //of course using a template library like handlebars.js is a better solution than just inserting a string
+            $('#preview').html("<img src='"+the_url+"' />")
+            $('#name').html(file.name)
+            $('#size').html(humanFileSize(file.size, "MB"))
+            $('#type').html(file.type)
+        }
+    
+    //when the file is read it triggers the onload event above.
+        reader.readAsDataURL(file);
+    }
+	
+	//this function is called when the input loads an image for second photo
+	 function renderImage2(file){
+        var reader = new FileReader();
+        reader.onload = function(event){
+            the_url = event.target.result
+      //of course using a template library like handlebars.js is a better solution than just inserting a string
+            $('#preview2').html("<img src='"+the_url+"' />")
+            $('#name2').html(file.name)
+            $('#size2').html(humanFileSize(file.size, "MB"))
+            $('#type2').html(file.type)
+        }
+    
+    //when the file is read it triggers the onload event above.
+        reader.readAsDataURL(file);
+    }
+	
+	// first photo
+	$("#uploadBtn1").change(function() {
+    document.getElementById("gig-photo-1").value = this.value;
+	//change started here
+	
+	var image = document.getElementById("gig-photo-1").value;
+	if (/\.(jpe?g|gif|png)$/i.test(image.type)){
+	//if (/(\.jpg|\.gif|\.jpeg|\.png)$/i.test(image.value)){
+		document.getElementById("image-status").innerHTML = '<span class="text-warning fa fa-times"> File has invalid image format</span>';
+	}
+	else{
+						document.getElementById("image-status").innerHTML = '<span class="text-success fa fa-check"> File has valid image format</span>';
+
+	 
+	console.log(this.files[0].size)
+	console.log(this.files)
+	
+    
+    // grab the first image in the FileList object and pass it to the function
+    renderImage(this.files[0])}
+});
+
+//second photo
+$("#uploadBtn2").change(function() {
+    document.getElementById("gig-photo-2").value = this.value;
+	//change started here
+	
+	var image = document.getElementById("gig-photo-2").value;
+	if (/\.(jpe?g|gif|png)$/i.test(image.type)){
+	//if (/(\.jpg|\.gif|\.jpeg|\.png)$/i.test(image.value)){
+		document.getElementById("image-status2").innerHTML = '<span class="text-warning fa fa-times"> File has invalid image format</span>';
+	}
+	else{
+						document.getElementById("image-status2").innerHTML = '<span class="text-success fa fa-check"> File has valid image format</span>';
+
+	 
+	console.log(this.files[0].size)
+	console.log(this.files)
+	
+    
+    // grab the first image in the FileList object and pass it to the function
+    renderImage2(this.files[0])}
+});
+	
+}
+else {
+
+  alert('The File APIs are not fully supported in this browser.');
+
+}
+
+	
+		 
+		 
+		 
+		 
+	 
+	
+	  </script>
+	
+</body>
+</html>

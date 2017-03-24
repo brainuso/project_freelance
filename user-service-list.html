@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>ChoiceWorker | <?php echo  $_SESSION['username'];?> | Edit Services</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="X-UA-Compatible" content="IE= edge">
+		<meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="google-site-verification" content="8eecgU41tTc6VawiYRwMwWHGW21KNb7av8D8iU2AEHA" />
+        
+		<!--css include file-->
+		<?php include 'css/css.php';?>
+        
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../bower_components/html5shiv/dist/html5shiv.js"></script>
+      <script src="../bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+	</head>
+	
+	<body>
+	
+	<?php include 'includes/header.php';?>
+	<div class="jumbotron">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="text-center">
+					<h2>Your Services</h2>
+				</div>
+				<!--added this row: gigs are now panels, panels have been altered in bootstrap.css-->
+		<?php 
+		//$name = $_SESSION['userID'];
+	
+		
+		$gig_query = selectMysql($pdo, "SELECT gig_details.gigid, gig_details.name, gig_details.description, gig_details.sellerid, gig_details.subcatid, price.standard FROM gig_details 
+		INNER JOIN price  WHERE gig_details.gigid=price.gigid and gig_details.sellerid='".$_SESSION['userID']."' AND gig_details.status='ACTIVE' LIMIT 0,16");
+		/* 
+		 try{
+			$result = $pdo->query($gig_query);
+ }catch (PDOException $e){
+	 $output = 'Query failed '. $e->getMessage();
+	 include 'error.html.php';
+ }*/
+		 if($gig_query->rowCount() == 0){
+			echo '<div class=""><span class="text-warning fa fa-warning"></span> Sorry, You do not have any Gigs currently being offered.<br/> Why not create one? <br/><a href="../create-gig/" class="btn btn-default">Create Gig</a>';
+		 }
+		 else{
+		
+		$gig = array();
+		while($row = $gig_query->fetch(PDO::FETCH_NUM)){
+	 $gig['ID'] = $row[0];
+	 $gig['name'] = $row[1];
+	 $gig['desc'] = $row[2];
+	 $gig['sellerid'] = $row[3];
+	 $gig['subcatid'] = $row[4];
+	 $gig['stdprice'] = $row[5];
+	 
+	  $file_query = selectMysql($pdo, "SELECT filepath FROM filestore INNER JOIN gig_details WHERE filestore.description='gig-profile' AND filestore.authorid ='".$gig['ID']."' AND gig_details.sellerid='".$_SESSION['userID']."'");
+	 
+	 
+	 $gig['imagepath'] = $file_query->fetchColumn();
+		$user_query = "SELECT username FROM user_biodata WHERE userid = '".$gig['sellerid']."'";
+		
+		$user_query = selectMysql($pdo, $user_query);
+		
+		$user = array();
+		while ($users = $user_query->fetch()){
+			$seller['name'] = $users[0];
+		}
+
+		$gig_url= str_replace(' ','-',$gig['name']);
+	
+		
+	 echo '<div class="col-lg-3 col-sm-4 col-md-3"> 
+						<a href="../../'.$seller['name'].'/'.$gig_url.'">
+	                      <div class="thumbnail"> 
+                                <img src="'.$gig['imagepath'].'" class="" alt="'.$gig['name'].'"/> 
+								<div class="caption"> 
+                                    <h5>'.ucfirst($gig['name']).'</h5> 
+                                    <p><strong class="pull-right">&#8358;'.($gig['stdprice']).'</strong></p> 
+                                </div>                                 
+                            </div>
+						</a>    ';
+					// url rewrite links waiting for completion
+echo'		<a href="../'.$gig_url.'/edit/" class="btn btn-primary">Edit</a>
+						<a href="../'.$gig_url.'/delete/" onclick="someT(event)" class="btn btn-warning pull-right">Delete</a>';
+          echo'
+			<form action="" method="POST" onsubmit="someT(event)">
+			<div class="form-group">
+			<input id="gig-id" type="hidden" name="gig_id" value="'.($gig['ID']).'"/>
+			<input id="delete" class="btn btn-warning pull-right"  name="action" value="Delete Gig" type="submit" />
+			</div>
+			</form>
+			';
+			if(isset($delete_error)) echo $delete_error;
+			
+		    echo '</div>';
+	
+			
+		}	
+		
+		}?>
+		<!--	<button class="btn btn-warning" id="delete" type="submit" name="gig_id"  value="'.($gig['ID']).'" onclick="someT(this.value) ">Delete Gig</button>
+		doDelete(this.value)
+		<input id="delete" class="btn btn-warning"  name="action" value="Delete Gig" type="button" onclick="someT() " /> -->
+		</div>
+	</div>
+	</div>
+            
+</div>
+</div>
+	</div>
+	<!--added the closing footer tag, footer now has a new rule in bootstrap.css -->
+			<?php include 'includes/footer.php';?>
+	 <!--js include file-->
+		<?php include 'js/js.php';?>
+	<script type="text/javascript">
+  
+  function someT(e){
+  if (confirm('Are you sure you want to delete this Service?')){
+  return;
+  }
+  else{
+
+	e.preventDefault();
+	history.go();
+  }
+  }
+</script>
+
+</body>
+</html>
